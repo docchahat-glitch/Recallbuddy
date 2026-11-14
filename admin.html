@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Recall Buddy · Owner</title><link rel="icon" href="favicon-32.png">
+<style>
+:root{--b:#1D4ED8;--ink:#0f172a;--mut:#64748b;--line:#dbe2ea;--soft:#f1f5f9;--ok:#0e8f7a;--bad:#b91c1c;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#07123C,#0B2A7A 60%,#0A6E86) fixed;color:var(--ink);min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+.top{display:flex;align-items:center;gap:10px;color:#fff;margin:6px 0 14px}.top img{height:40px}.top h1{font-size:1.15rem;margin:0}.top small{opacity:.75;display:block;font-weight:500}
+.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px}
+h2{font-size:1rem;margin:0 0 10px}label{display:block;font-weight:600;font-size:.85rem;margin:10px 0 4px}
+input,select,textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px;font:inherit;background:#fff}
+textarea{font:500 .8rem ui-monospace,monospace}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:10px;padding:11px 14px;font:700 .95rem inherit;background:var(--b);color:#fff;cursor:pointer}
+button.alt{background:var(--soft);color:var(--ink)}button.red{background:#fee2e2;color:var(--bad)}button.sm{padding:6px 10px;font-size:.8rem}
+a.btn{display:block;text-align:center;text-decoration:none;border-radius:10px;padding:12px;font-weight:800;background:#25D366;color:#073b1e;margin-top:8px}
+.tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto}.tabs button{background:rgba(255,255,255,.14);color:#fff;white-space:nowrap}.tabs button.on{background:#fff;color:var(--ink)}
+.err{color:var(--bad);min-height:1.1em;font-size:.88rem;margin:8px 0 0}.mut{color:var(--mut);font-size:.85rem}
+.code{word-break:break-all;background:var(--soft);border-radius:10px;padding:10px;font:600 .75rem ui-monospace,monospace;margin:8px 0}
+.it{border-top:1px solid var(--line);padding:10px 0;display:grid;gap:4px}.it:first-child{border-top:0}
+.it b{font-size:.95rem}.tag{display:inline-block;font-size:.72rem;font-weight:800;border-radius:99px;padding:2px 8px;margin-left:6px;background:var(--soft)}
+.tag.x{background:#fee2e2;color:var(--bad)}.tag.ok{background:#dcfce7;color:#166534}.acts{display:flex;gap:6px;flex-wrap:wrap}
+[hidden]{display:none!important}.chk{display:flex;gap:8px;align-items:center;font-weight:600;margin-top:10px}.chk input{width:auto}
+</style></head><body><div class="wrap">
+<div class="top"><img src="img-brand-mark.png" alt=""><div><h1>Recall Buddy · Owner</h1><small>Issue and manage activation codes</small></div></div>
+
+<section class="card" id="login"><h2>Sign in</h2><label>Owner password<input id="pw" type="password" autocomplete="current-password"></label><p class="err" id="lerr"></p><button id="go">Sign in</button></section>
+
+<div id="app" hidden>
+<div class="tabs"><button data-t="new" class="on">New code</button><button data-t="list">Students</button><button data-t="blocked">Blocked</button><button data-t="owner">Owner code</button><button data-t="out" class="alt">Sign out</button></div>
+
+<section class="card" data-p="new">
+ <h2>1. Paste the student's WhatsApp message</h2>
+ <textarea id="paste" rows="5" placeholder="Paste the whole message the student sent (it has their name, number, plan and Device ID)"></textarea>
+ <p class="mut">Check the payment screenshot first. The boxes below fill in by themselves; you can also type them.</p>
+ <h2 style="margin-top:16px">2. Check the details</h2>
+ <div class="row"><label>Name<input id="nm"></label><label>WhatsApp number<input id="ph" inputmode="tel" placeholder="10 digits"></label></div>
+ <div class="row"><label>Device ID 1<input id="d1" placeholder="ABCD-EFGH" autocapitalize="characters"></label><label>Device ID 2 <small>(optional, tablet)</small><input id="d2" placeholder="WXYZ-2345" autocapitalize="characters"></label></div>
+ <div class="row"><label>Plan<select id="pl"><option value="p50">Starter ₹50</option><option value="p100" selected>Plus ₹100</option><option value="p150">Pro ₹150</option></select></label>
+  <label>Valid for<select id="dy"><option value="30" selected>1 month</option><option value="90">3 months</option><option value="180">6 months</option><option value="365">1 year</option></select></label></div>
+ <label>Note <small>(optional, e.g. UPI ref)</small><input id="nt"></label>
+ <label class="chk" id="rein-w" hidden><input type="checkbox" id="rein"> Give another chance (number is blacklisted)</label>
+ <p class="err" id="nerr"></p><button id="mk">3. Create activation code</button>
+ <div id="res" hidden><h2 style="margin-top:16px">4. Send it</h2><div class="code" id="rc"></div><div class="row"><button class="alt" id="cp">Copy code</button><button class="alt" id="clr">New student</button></div><a class="btn" id="wa" target="_blank" rel="noopener">Send to student on WhatsApp</a></div>
+</section>
+
+<section class="card" data-p="list" hidden><h2>Students</h2><input id="q" placeholder="Search name, number or Device ID"><p class="mut" id="cnt"></p><div id="lst"></div></section>
+<section class="card" data-p="blocked" hidden><h2>Blocked numbers</h2><p class="mut">Blocked after 2 screenshots, or by you. Unblock to give another chance (or issue a new code with "Give another chance").</p><div id="blk"></div>
+ <h2 style="margin-top:16px">Block a number</h2><div class="row"><input id="bph" placeholder="10-digit number"><input id="brs" placeholder="Reason"></div><p class="err" id="berr"></p><button class="red" id="bgo">Block</button></section>
+<section class="card" data-p="owner" hidden><h2>Owner / developer code</h2><p class="mut">Opens the full app on any device (also on a computer: tap the logo 7 times on the "phones and tablets only" screen) and shows backup, reset and install in Settings. Keep it to yourself.</p>
+ <label>Valid for<select id="ody"><option value="30">1 month</option><option value="365" selected>1 year</option></select></label><p class="err" id="oerr"></p><button id="ogo">Create owner code</button><div class="code" id="oc" hidden></div></section>
+</div></div>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},PW=sessionStorage.getItem('rbpw')||'';
+function api(p,b){b=b||{};b.pw=PW;return fetch('/api/admin/'+p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)}).then(function(r){return r.json()}).catch(function(){return {ok:false,why:'No connection to the server.'}})}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function show(on){$('#login').hidden=on;$('#app').hidden=!on}
+function login(){PW=$('#pw').value||PW;api('check').then(function(r){if(r.ok){sessionStorage.setItem('rbpw',PW);show(true)}else{$('#lerr').textContent=r.why;sessionStorage.removeItem('rbpw')}})}
+$('#go').onclick=login;$('#pw').onkeydown=function(e){if(e.key==='Enter')login()};
+if(PW)api('check').then(function(r){if(r.ok)show(true)});
+document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){var t=b.dataset.t;if(t==='out'){sessionStorage.removeItem('rbpw');PW='';show(false);return}
+  document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b)});document.querySelectorAll('[data-p]').forEach(function(p){p.hidden=p.dataset.p!==t});if(t==='list'||t==='blocked')load()}});
+/* paste parser: the app's WhatsApp messages contain "Name:", "WhatsApp: +91 ...", "Plan: Plus", "Device ID: ABCD-EFGH" */
+$('#paste').oninput=function(){var t=this.value,m;
+  if((m=t.match(/Name:\s*(.+)/i)))$('#nm').value=m[1].trim();
+  if((m=t.match(/WhatsApp:\s*\+?\s*(?:91)?\s*([\d\s]{10,14})/i)))$('#ph').value=m[1].replace(/\D/g,'').slice(-10);
+  if((m=t.match(/Plan:\s*(Starter|Plus|Pro)/i)))$('#pl').value={starter:'p50',plus:'p100',pro:'p150'}[m[1].toLowerCase()];
+  var ids=[];t.replace(/Device ID:\s*([A-Z0-9]{4}-?[A-Z0-9]{4})/gi,function(_,d){ids.push(d.toUpperCase())});if(ids[0])$('#d1').value=ids[0];if(ids[1])$('#d2').value=ids[1]};
+$('#mk').onclick=function(){$('#nerr').textContent='Creating…';
+  api('issue',{name:$('#nm').value,phone:$('#ph').value,devices:[$('#d1').value,$('#d2').value].filter(Boolean),plan:$('#pl').value,days:+$('#dy').value,note:$('#nt').value,reinstate:$('#rein').checked}).then(function(r){
+    if(!r.ok){$('#nerr').textContent=r.why;if(r.blacklisted)$('#rein-w').hidden=false;return}
+    $('#nerr').textContent='';$('#rc').textContent=r.code;$('#wa').href=r.wa;$('#res').hidden=false;$('#res').scrollIntoView({behavior:'smooth'})})};
+$('#cp').onclick=function(){navigator.clipboard.writeText($('#rc').textContent);this.textContent='Copied'};
+$('#clr').onclick=function(){['paste','nm','ph','d1','d2','nt'].forEach(function(i){$('#'+i).value=''});$('#rein').checked=false;$('#rein-w').hidden=true;$('#res').hidden=true;$('#cp').textContent='Copy code';window.scrollTo(0,0)};
+var data={codes:[],blocks:[]};
+function load(){api('list').then(function(r){if(!r.ok)return;data=r;render()})}
+function render(){var q=($('#q').value||'').toLowerCase().replace(/-/g,''),cs=data.codes.filter(function(c){return !q||(c.name+' '+c.phone+' '+c.devices).toLowerCase().replace(/-/g,'').indexOf(q)>=0});
+  $('#cnt').textContent=cs.length+' code(s)';
+  $('#lst').innerHTML=cs.map(function(c){var exp=c.exp&&c.exp<data.today;return '<div class="it"><div><b>'+esc(c.name||(c.owner?'Owner':'-'))+'</b>'+(c.owner?'<span class="tag">OWNER</span>':'<span class="tag">'+esc({p50:'Starter',p100:'Plus',p150:'Pro'}[c.plan]||c.plan)+'</span>')+(c.revoked?'<span class="tag x">REVOKED</span>':exp?'<span class="tag x">EXPIRED</span>':'<span class="tag ok">ACTIVE</span>')+'</div>'+
+   '<span class="mut">'+(c.phone?'+91 '+esc(c.phone)+' · ':'')+'until '+esc(c.exp)+(c.devices?' · '+esc(c.devices.replace(/([A-Z0-9]{4})([A-Z0-9]{4})/g,'$1-$2')):'')+' · issued '+new Date(c.issued).toLocaleDateString()+'</span>'+
+   '<div class="acts">'+(c.revoked?'<button class="sm alt" data-a="restore" data-id="'+c.id+'">Switch back on</button>':'<button class="sm red" data-a="revoke" data-id="'+c.id+'">Revoke</button>')+(c.phone?'<button class="sm red" data-a="block" data-ph="'+c.phone+'">Block number</button><a class="sm" style="font-size:.8rem;align-self:center" href="https://wa.me/91'+c.phone+'" target="_blank" rel="noopener">WhatsApp</a>':'')+'</div></div>'}).join('')||'<p class="mut">No codes yet.</p>';
+  $('#blk').innerHTML=data.blocks.map(function(b){return '<div class="it"><div><b>+91 '+esc(b.phone)+'</b> '+(b.name?esc(b.name):'')+'<span class="tag x">'+esc(b.reason||'blocked')+'</span></div><span class="mut">since '+new Date(b.at).toLocaleString()+'</span><div class="acts"><button class="sm alt" data-a="unblock" data-ph="'+esc(b.phone)+'">Unblock</button></div></div>'}).join('')||'<p class="mut">Nobody is blocked.</p>'}
+$('#q').oninput=render;
+document.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a;
+  if((a==='revoke'||a==='block')&&!confirm(a==='revoke'?'Revoke this code? The student loses access at their next launch.':'Block +91 '+b.dataset.ph+'? All their codes stop working.'))return;
+  api(a,a==='block'||a==='unblock'?{phone:b.dataset.ph,reason:'blocked by owner'}:{id:b.dataset.id}).then(load)});
+$('#bgo').onclick=function(){api('block',{phone:$('#bph').value,reason:$('#brs').value}).then(function(r){$('#berr').textContent=r.ok?'Blocked.':r.why;load()})};
+$('#ogo').onclick=function(){api('issue',{owner:true,days:+$('#ody').value}).then(function(r){if(!r.ok){$('#oerr').textContent=r.why;return}$('#oc').hidden=false;$('#oc').textContent=r.code})};
+})();
+</script></body></html>

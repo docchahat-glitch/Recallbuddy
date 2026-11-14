@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recall Buddy · PG Exam Prep</title>
+<meta name="theme-color" content="#07123C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Recall Buddy">
+<meta name="format-detection" content="telephone=no">
+
+<meta name="description" content="Previous-year questions, Q bank, flashcards and Grand Tests for PG medical entrance exams.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="style.css?v=75ef62d728">
+<link rel="stylesheet" href="viz.css?v=75ef62d728">
+<link rel="stylesheet" href="extra.css?v=75ef62d728">
+<link rel="stylesheet" href="pro.css?v=75ef62d728">
+<link rel="stylesheet" href="shell.css?v=75ef62d728">
+<link rel="stylesheet" href="brand.css?v=75ef62d728">
+<script>try{var t=JSON.parse(localStorage.getItem("im-theme"));if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body class="mode-off view-home">
+<div id="splash" aria-hidden="true"><img class="sp-img" src="img-brand-logo-full.png" alt="" width="220" height="auto"><span>PG Exam Prep</span></div>
+
+
+<div class="appbar" id="appbar"><div class="wrap ab-in">
+  <span class="brand" aria-label="Recall Buddy">Recall Buddy<small>PG Prep</small></span>
+  <nav class="ab-nav" aria-label="Main">
+    <button type="button" data-view="home" aria-current="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg><span class="t">Home</span></button>
+    <button type="button" data-view="daily" aria-current="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg><span class="t">Daily 20</span></button>
+    <button type="button" data-view="study" aria-current="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2zM4 19a2 2 0 012-2h13"/></svg><span class="t">Study</span></button>
+    <button type="button" data-view="practice" aria-current="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h9"/></svg><span class="t">Practice</span></button>
+  </nav>
+  <div class="ab-tools"><button type="button" id="searchbtn" aria-label="Search all cards (press /)" title="Search all cards (/)">🔍</button><button type="button" id="themebtn" aria-label="Toggle dark mode">🌙</button></div>
+</div></div>
+
+<header class="hero">
+  <div class="wrap hero-in" id="hero-in">
+    <div>
+      <p class="eyebrow">Recall Buddy</p>
+      <h1 id="hero-title">Scores and classifications</h1>
+      <p class="sub" id="hero-blurb"></p>
+    </div>
+    <div class="legend" id="legend" aria-label="Colour key">
+      <div><i class="dot red"></i><span><b>RED</b>Urgent referral / very severe disease</span></div>
+      <div><i class="dot yellow"></i><span><b>YELLOW</b>Specific treatment / follow up</span></div>
+      <div><i class="dot green"></i><span><b>GREEN</b>Home care / routine care</span></div>
+    </div>
+    <nav class="subjects" id="subjects" aria-label="Subjects"></nav>
+    <div class="prog"><div class="segs" id="segs" aria-hidden="true"></div><span id="progtxt"></span></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections"><div class="wrap" role="tablist" id="tablist"></div></nav>
+
+<main class="wrap" id="study-main">
+  <div class="modebar" id="modebar">
+    <span class="mlabel">Recall</span>
+    <div class="seg" id="modes" role="group" aria-label="Recall mode">
+      <button type="button" data-mode="off" aria-pressed="true">Off</button>
+      <button type="button" data-mode="reveal" aria-pressed="false">Reveal</button>
+      <button type="button" data-mode="choose" aria-pressed="false">Choose</button>
+      <button type="button" data-mode="type" aria-pressed="false">Type</button>
+    </div>
+  </div>
+  <p class="hint" id="hint" hidden></p>
+
+  <div class="toolbar" id="toolbar">
+    <div class="chips" id="secchips" role="group" aria-label="Section"></div>
+    <div class="tb-btns"><button type="button" class="chipbtn" id="hidelearned" aria-pressed="false">Hide learned</button><button type="button" class="chipbtn" id="randbtn">🎲 Random card</button></div>
+    <input type="search" id="search" class="search" placeholder="Search this subject" aria-label="Search cards in this subject">
+  </div>
+
+  <section id="p-cards" class="panel"><div id="cards"></div></section>
+  <section id="p-flash" class="panel" hidden><div class="study" id="flash"></div></section>
+  <section id="p-quiz" class="panel" hidden><div class="study" id="quiz"></div></section>
+  <section id="p-numbers" class="panel" hidden><div id="numbers"></div></section>
+  <section id="p-cheat" class="panel" hidden><div class="tw"><table id="cheat"></table></div></section>
+
+  <p class="note legal">© All rights reserved to Dr. CS Enterprises. Protected under the IP legal sections.</p>
+</main>
+
+<main class="wrap" id="home-view"></main>
+<main class="wrap" id="gt-view" aria-live="off"></main>
+<main class="wrap" id="qb-view"></main>
+<main class="wrap" id="daily-view"></main>
+<main class="wrap" id="practice-view"></main>
+
+<script>/* Recall Buddy site loader: free demo for visitors; full app (decrypted with a key from the server) after activation */
+(function(){var g=function(k){try{return JSON.parse(localStorage.getItem('im-'+k))}catch(e){return null}},s=function(k,v){try{if(v==null)localStorage.removeItem('im-'+k);else localStorage.setItem('im-'+k,JSON.stringify(v))}catch(e){}};
+var l=g('lic'),o=g('owner-code'),code=(l&&l.code)||o||'',V='c74da8dca0';
+function mark(ed){window.RB_EDITION=ed;if(g('ed')!==ed){['qb-prog','qb-run','daily','daily-wrong','last','gt-run'].forEach(function(k){s(k,null)});s('ed',ed)}}
+function add(src){var x=document.createElement('script');x.src=src;x.onload=function(){if(src.indexOf('blob:')===0)URL.revokeObjectURL(src)};document.body.appendChild(x)}
+function demo(msg){if(msg)s('lic-msg',msg);mark('demo');add('demo.js?v='+V)}
+function b64(t){var b=atob(t),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a}
+function full(k){return fetch('full.enc?v='+V).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer()}).then(function(buf){return crypto.subtle.importKey('raw',b64(k),'AES-GCM',false,['decrypt']).then(function(key){return crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(buf,0,12)},key,new Uint8Array(buf,12))})}).then(function(pt){mark('full');add(URL.createObjectURL(new Blob([pt],{type:'text/javascript'})))})}
+if(!code){mark('demo');document.write('<script src="demo.js?v='+V+'"><\/script>');return}
+fetch('/api/unlock',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({code:code,device:g('device')||''})})
+.then(function(r){if(r.status>=500)throw 0;return r.json()}).then(function(j){
+  if(j.ok){s('fk',{k:j.key,t:Date.now()});s('srv-blocked',null);return full(j.key).catch(function(){demo('Could not open the full app. Please reload.')})}
+  s('fk',null);if(j.blocked)s('srv-blocked',1);if(l&&l.code===code)s('lic',null);else s('owner-code',null);demo(j.why);
+}).catch(function(){var f=g('fk');if(f&&f.k&&Date.now()-f.t<7*864e5)full(f.k).catch(function(){demo('')});else demo('Connect to the internet to open your full access.')});
+})();</script>
+<noscript><p style="padding:20px;font-family:sans-serif">Recall Buddy needs JavaScript to run.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "Recall Buddy: PG Prep",
+  "short_name": "Recall Buddy",
+  "description": "Previous-year questions, a topic-wise question bank, flashcards and timed Grand Tests for PG medical entrance exams.",
+  "id": "./",
+  "start_url": "./index.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#07123C",
+  "theme_color": "#07123C",
+  "categories": ["education", "medical"],
+  "lang": "en",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Daily 20", "url": "./index.html?view=daily", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+    {"name": "Q Bank", "url": "./index.html?view=qb", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+    {"name": "PYQs", "url": "./index.html?view=pyq", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+    {"name": "Grand Test", "url": "./index.html?view=gt", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]}
+  ]
+}
